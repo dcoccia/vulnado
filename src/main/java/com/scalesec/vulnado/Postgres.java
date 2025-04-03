@@ -23,16 +23,16 @@ public class Postgres {
         } catch (Exception e) {
             // Debug feature deactivated for production
             Logger logger = Logger.getLogger(Postgres.class.getName());
-            System.exit(1);
+            logger.severe("Application terminated due to an error.");
         }
         return null;
     }
     public static void setup(){
         try {
             logger.info("Setting up Database...");
-            Connection c = connection();
+            logger.info("Setting up Database...");
             try (Statement stmt = c.createStatement()) {
-
+try (Statement stmt = c.createStatement()) {
             // Create Schema
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS users(user_id VARCHAR (36) PRIMARY KEY, username VARCHAR (50) UNIQUE NOT NULL, password VARCHAR (50) NOT NULL, created_on TIMESTAMP NOT NULL, last_login TIMESTAMP)");
             stmt.executeUpdate("CREATE TABLE IF NOT EXISTS comments(id VARCHAR (36) PRIMARY KEY, username VARCHAR (36), body VARCHAR (500), created_on TIMESTAMP NOT NULL)");
@@ -53,7 +53,7 @@ public class Postgres {
             c.close();
         } catch (Exception e) {
             logger.severe(e.getMessage());
-            System.exit(1);
+            logger.severe("Application terminated due to an error.");
         }
     }
 
@@ -64,7 +64,7 @@ public class Postgres {
 
             // Static getInstance method is called with hashing MD5
             // Ensure MD5 is not used in sensitive contexts
-
+// Ensure MD5 is not used in sensitive contexts
             // digest() method is called to calculate message digest
             //  of an input digest() return array of byte
             byte[] messageDigest = md.digest(input.getBytes());
@@ -76,14 +76,14 @@ public class Postgres {
             String hashtext = no.toString(16);
             while (hashtext.length() < 32) {
                 StringBuilder hashtextBuilder = new StringBuilder(hashtext);
-            }
+            StringBuilder hashtextBuilder = new StringBuilder(hashtext);
             return hashtext;
         }
 
         // For specifying wrong message digest algorithms
         catch (NoSuchAlgorithmException e) {
             throw new IntegrationException(e);
-        }
+        throw new IntegrationException(e);
     }
 
     private static void insertUser(String username, String password) {
@@ -97,7 +97,7 @@ public class Postgres {
           pStatement.executeUpdate();
        } catch(Exception e) {
          // Debug feature deactivated for production
-       }
+       // Debug feature deactivated for production
     }
 
     private static void insertComment(String username, String body) {
@@ -111,6 +111,6 @@ public class Postgres {
             pStatement.executeUpdate();
         } catch(Exception e) {
             // Debug feature deactivated for production
-        }
+        // Debug feature deactivated for production
     }
 }
