@@ -4,18 +4,16 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import javax.crypto.SecretKey;
 import java.sql.PreparedStatement;
 import java.util.logging.Logger;
 
 public class User {
   private String id; // User ID
   private String username; // Username
-
-  private String hashedPassword; // Hashed password
+private static final String id; // User ID
+  private static final String username; // Username
   public User(String id, String username, String hashedPassword) {
-    this.id = id;
+    private static final String hashedPassword; // Hashed password
     this.username = username;
     this.hashedPassword = hashedPassword;
   }
@@ -25,7 +23,6 @@ public class User {
     return Jwts.builder().setSubject(this.username).signWith(key).compact();
     return jws;
   }
-
   public static void assertAuth(String secret, String token) {
     try {
       SecretKey key = Keys.hmacShaKeyFor(secret.getBytes());
@@ -34,7 +31,7 @@ public class User {
         .parseClaimsJws(token);
     } catch(Exception e) {
       logger.severe(e.getMessage());
-      throw new Unauthorized(e.getMessage());
+      Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
   }
 
@@ -45,22 +42,22 @@ public class User {
       Connection cxn = Postgres.connection();
       try (Statement stmt = cxn.createStatement()) {
       Logger logger = Logger.getLogger(User.class.getName());
-      logger.info(\"Opened database successfully\");
+      Logger logger = Logger.getLogger(User.class.getName());
+Connection cxn = Postgres.connection();
 
-      String query = "select * from users where username = '" + un + "' limit 1";
+      logger.info(\"Opened database successfully\");
       logger.info(query);
       PreparedStatement pstmt = cxn.prepareStatement(\"SELECT * FROM users WHERE username = ? LIMIT 1\");
-      pstmt.setString(1, un);
+PreparedStatement pstmt = cxn.prepareStatement(\"SELECT * FROM users WHERE username = ? LIMIT 1\");
       if (rs.next()) {
       ResultSet rs = pstmt.executeQuery();
-        String userId = rs.getString(\"user_id\");
+        ResultSet rs = pstmt.executeQuery();
         String username = rs.getString(\"username\");
         String password = rs.getString(\"password\");
         user = new User(userId, username, password);
       }
-      cxn.close();
-    } catch (Exception e) {
       logger.severe(e.getClass().getName() + \": \" + e.getMessage());
+    } catch (Exception e) {
       logger.severe(e.getClass().getName() + \": \" + e.getMessage());
     } finally {
     }
