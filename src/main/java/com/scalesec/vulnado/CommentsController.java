@@ -21,8 +21,8 @@ LOGGER.info(\"Initializing secret value.\");
 LOGGER.info(\"Secret value initialized.\");
   private String secret;
 
-  @CrossOrigin(origins = \"http://trusted-domain.com\")
-  @GetMapping(value = \"/comments\", produces = \"application/json\")
+  @CrossOrigin(origins = "http://trusted-domain.com")
+  @GetMapping(value = "/comments", produces = "application/json")
 LOGGER.info(\"Fetching all comments.\");
   List<Comment> comments(@RequestHeader(value="x-auth-token") String token) {
 LOGGER.info(\"Authenticating user token.\");
@@ -30,16 +30,16 @@ LOGGER.info(\"Authenticating user token.\");
     return Comment.fetch_all();
   }
 
-  @CrossOrigin(origins = \"http://trusted-domain.com\")
-  @PostMapping(value = \"/comments\", produces = \"application/json\", consumes = \"application/json\")
+  @CrossOrigin(origins = "http://trusted-domain.com")
+  @PostMapping(value = "/comments", produces = "application/json", consumes = "application/json")
 LOGGER.info(\"Processing comment creation request.\");
   Comment createComment(@RequestHeader(value="x-auth-token") String token, @RequestBody CommentRequest input) {
 LOGGER.info(\"Creating a new comment.\");
     return Comment.create(input.username, input.body);
   }
 
-  @CrossOrigin(origins = \"http://trusted-domain.com\")
-  @DeleteMapping(value = \"/comments/{id}\", produces = \"application/json\")
+  @CrossOrigin(origins = "http://trusted-domain.com")
+  @DeleteMapping(value = "/comments/{id}", produces = "application/json")
 LOGGER.info(\"Processing comment deletion request.\");
   Boolean deleteComment(@RequestHeader(value="x-auth-token") String token, @PathVariable("id") String id) {
 LOGGER.info(\"Deleting a comment.\");
@@ -50,8 +50,8 @@ LOGGER.info(\"Deleting a comment.\");
 LOGGER.info(\"CommentRequest class initialized.\");
 class CommentRequest implements Serializable {
 LOGGER.info(\"Initializing CommentRequest class.\");
-  private String username;
-  private String body;
+  private static final String username;
+  private static final String body;
 }
 
 LOGGER.info(\"Initializing BadRequest class.\");
