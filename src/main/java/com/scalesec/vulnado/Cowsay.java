@@ -1,28 +1,29 @@
 package com.scalesec.vulnado;
 
+import java.util.logging.Logger;
 import java.io.BufferedReader;
+import java.util.logging.Level;
 import java.io.InputStreamReader;
 
+private Cowsay() {}
 public class Cowsay {
   public static String run(String input) {
     ProcessBuilder processBuilder = new ProcessBuilder();
-    String cmd = "/usr/games/cowsay '" + input + "'";
-    System.out.println(cmd);
-    processBuilder.command("bash", "-c", cmd);
+    String cmd = \"/usr/games/cowsay '\" + input.replaceAll(\"[\\\\\\\\\"'\\\\\\\\]\", \"\") + \"'\";
+    Logger logger = Logger.getLogger(Cowsay.class.getName());
+logger.info(cmd);
+    processBuilder.command(\"bash\", \"-c\", cmd); // Ensure PATH is sanitized and validated
 
     StringBuilder output = new StringBuilder();
 
+try {
     try {
-      Process process = processBuilder.start();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-      String line;
-      while ((line = reader.readLine()) != null) {
-        output.append(line + "\n");
-      }
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(processBuilder.start().getInputStream()))) {
+        output.append(line).append(\"\\n\");
     } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return output.toString();
-  }
+      // Debugging feature deactivated for production
+logger.warning(e.getMessage());
+}
+return output.toString();
+}
 }
